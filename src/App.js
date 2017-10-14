@@ -29,11 +29,13 @@ class App extends Component {
     this.state = {
       loading: true,
       results: [],
+      source: "SYD",
+      dest: "MEL"
     };
   }
 
   componentDidMount() {
-    this.loadData().then((results) =>{
+    this.loadData(this.state.source, this.state.dest).then((results) =>{
     // this.getResults().then((results) =>{
       this.setState({
         loading: false,
@@ -42,7 +44,7 @@ class App extends Component {
     });
   }
 
-  loadData() {
+  loadData(origin, destination) {
     return new Promise(resolve => {
       const http = new XMLHttpRequest();
       const url = 'https://www.googleapis.com/qpxExpress/v1/trips/search?key=AIzaSyAFoYB5w3LU2YehLwt-g1eH4m8dIeg0E7Q';
@@ -54,8 +56,8 @@ class App extends Component {
           },
             "slice": [
                 {
-                    "origin": "SYD",
-                    "destination": "MEL",
+                    origin,
+                    destination,
                     "date": "2017-11-01"
                 }
             ]
@@ -101,7 +103,7 @@ class App extends Component {
     });
   } 
 
-  getResults() {
+  getResults(origin) {
     return new Promise(resolve => {
       const request = new XMLHttpRequest();
       const request_url = "http://localhost:3001/results";
@@ -120,12 +122,29 @@ class App extends Component {
     });
   }
 
+  changeCity = (city) => {
+    const destination = city === 'SYD' ? 'MEL' : 'SYD';
+    this.setState({
+      source: city,
+      loading: true,
+      destination,
+    });
+    this.loadData(city, destination).then(results => {
+      this.setState({
+        loading: false,
+        results,
+      });
+    });
+  }
+
   render() {
-    const content = this.state.loading ? <Loader /> : <SearchResults results={this.state.results} />;
+    const content = this.state.loading ? <Loader /> : <SearchResults city={this.state.source} results={this.state.results} />;
     return (
       <div className="App">
        <Header 
         name={"Sonya"}
+        changeCity={this.changeCity}
+        city={this.state.source}
         budget={1000}/>
        {content}
       </div>

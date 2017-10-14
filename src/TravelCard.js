@@ -9,13 +9,13 @@ export class TravelCard extends Component {
 				<div className="panel-body">
 					<div className="trvlImg">
 
-						<img className="img-responsive" src={imgUrl||'http://travel.viralitytoday.com/newassets/travel-022.jpg'} alt=""/>
+						<img className={imgUrl ? "img-responsive" : "img-responsive placeholderImg"} src={imgUrl||'http://travel.viralitytoday.com/newassets/travel-022.jpg'} alt=""/>
 					</div>
 					<div className="mt10">
-	                   <div className="text-uppercase text-muted"><small><small>Sydney To</small></small></div>
+	                   <div className="text-uppercase text-muted"><small><small>{this.props.city === 'SYD' ? 'Sydney' : 'Melbourne'} To</small></small></div>
 	                   <div className="clearfix">
 	                   	<span className="text-uppercase pull-left"><b><h4 className="clear-margin">{title}</h4></b></span>
-	                   	<span className="pull-right"><b><h3 className="clear-margin">${price}</h3></b></span>
+	                   	<span className="pull-right"><b><h3 className="clear-margin">{price}</h3></b></span>
 	                   </div>
 					</div>
 					<div className="mt10">

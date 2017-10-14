@@ -11,7 +11,7 @@ export class SearchResults extends Component {
 
       <div className="row">
         {this.props.results.map((result, idx) => (
-          <div className="col-md-4" key={idx}><TravelCard result={result} /></div>
+          <div className="col-md-4" key={idx}><TravelCard city={this.props.city} result={result} /></div>
         ))}
       </div>
      </div>
